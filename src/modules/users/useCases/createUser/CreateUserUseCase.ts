@@ -10,7 +10,13 @@ class CreateUserUseCase {
   constructor(private usersRepository: IUsersRepository) {}
 
   execute({ email, name }: IRequest): User {
-    // Complete aqui
+    const findByEmail = this.usersRepository.findByEmail(email);
+
+    if (findByEmail) {
+      throw new Error("email already exists!");
+    }
+
+    return this.usersRepository.create({ email, name });
   }
 }
 
